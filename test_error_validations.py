@@ -1,0 +1,46 @@
+from selenium.webdriver import Keys
+from seleniumbase import BaseCase
+
+BaseCase.main(__name__, __file__)
+
+
+class TestErrorsValidation(BaseCase):
+    def test_error_validation_product_page(self):
+        """scenario to assert error fields from product page, add to wish list error and assert compare products message"""
+        self.maximize_window()
+        self.open("https://magento.softwaretestingboard.com")
+        self.hover("//*[contains(text(),'Women')]")
+        self.wait_for_element("//*[@id='ui-id-9']")
+        self.hover("//*[@id='ui-id-9']")
+        self.click("//*[@id='ui-id-11']")
+        self.assert_exact_text("Jackets", "span.base")
+        self.click("//a[contains(text(),'Jade Yoga Jacket')]")
+        self.assert_element_visible('span.base')
+        self.assert_exact_text('Jade Yoga Jacket', 'span.base')
+        self.click("[id='product-addtocart-button']")
+        self.assert_element_visible("[id='super_attribute[143]-error']")
+        self.assert_exact_text('This is a required field.', "[id='super_attribute[143]-error']")
+        self.assert_element_visible("[id = 'super_attribute[93]-error']")
+        self.assert_exact_text('This is a required field.', "[id = 'super_attribute[93]-error']")
+        self.click("[id='qty']")
+        self.type("[id='qty']", 'O00')
+        self.click("[id='product-addtocart-button']")
+        self.assert_exact_text('Please enter a quantity greater than 0.', "[id='qty-error']")
+        self.type("[id='qty']", '-')
+        self.click("[id='product-addtocart-button']")
+        self.assert_exact_text('Please enter a valid number in this field.', "[id='qty-error']")
+        self.click("[id='qty']")
+        self.type("[id='qty']", '-1')
+        self.click("[id='product-addtocart-button']")
+        self.assert_exact_text('Please enter a quantity greater than 0.', "[id='qty-error']")
+        self.click("(//span[contains(text(),'Add to Wish List')])[1]")
+        self.wait_for_element(".page")
+        self.assert_element_visible(".page")
+        self.go_back()
+        self.click("(//*[@class='level-top ui-corner-all'])[1]")
+        self.assert_exact_text('What\'s New', '.base')
+        self.click("(//a[contains(text(),'Pants')])[1]")
+        self.wait_for_element("//a[contains(text(),'Sylvia Capri')]", timeout=8)
+        self.click("//a[contains(text(),'Sylvia Capri')]")
+        self.click("[class='action tocompare']")
+        self.assert_element_visible("[class='messages']:first-child")
