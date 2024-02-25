@@ -11,5 +11,8 @@ Commands in terminal:
 - to generate a dashboard.html in the root folder -> `pytest test_suite.py --dashboard`
 
 Test suite is saved as `test_suite.py` file. Running the above comands with the
+
+Note: test cases are run only on Chrome.
+
 <img width="1385" alt="Screenshot 2024-02-25 at 17 07 52" src="https://github.com/AndreeaParlica/QteamAssessment2/assets/76092132/34a8b590-fe4b-4a4d-8684-a39d3bcb6ecf">![Uploading Screenshot 2024-02-25 at 17.07.52.png…]()
 
